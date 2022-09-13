@@ -1,5 +1,6 @@
 Setup
   $ . ${TESTDIR}/../setup.sh
+  $ . ${TESTDIR}/setup.sh
 
 Check
-  ${TURBO} --version
+  $ ${TURBO} run build --dry --single-package

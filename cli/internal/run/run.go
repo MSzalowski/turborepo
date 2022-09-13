@@ -434,10 +434,11 @@ type runOpts struct {
 	dryRun     bool
 	dryRunJSON bool
 	// Graph flags
-	graphDot    bool
-	graphFile   string
-	noDaemon    bool
-	daemonOptIn bool
+	graphDot      bool
+	graphFile     string
+	noDaemon      bool
+	daemonOptIn   bool
+	singlePackage bool
 }
 
 var (
@@ -471,6 +472,7 @@ func addRunOpts(opts *runOpts, flags *pflag.FlagSet, aliases map[string]string) 
 	flags.BoolVar(&opts.only, "only", false, _onlyHelp)
 	flags.BoolVar(&opts.noDaemon, "no-daemon", false, "Run without using turbo's daemon process")
 	flags.BoolVar(&opts.daemonOptIn, "experimental-use-daemon", false, "Use the experimental turbo daemon")
+	flags.BoolVar(&opts.singlePackage, "single-package", false, "Run turbo in single-package mode")
 	// Daemon-related flags hidden for now, we can unhide when daemon is ready.
 	if err := flags.MarkHidden("experimental-use-daemon"); err != nil {
 		panic(err)
@@ -480,6 +482,9 @@ func addRunOpts(opts *runOpts, flags *pflag.FlagSet, aliases map[string]string) 
 	}
 	if err := flags.MarkHidden("only"); err != nil {
 		// fail fast if we've messed up our flag configuration
+		panic(err)
+	}
+	if err := flags.MarkHidden("single-package"); err != nil {
 		panic(err)
 	}
 	aliases["dry"] = "dry-run"
