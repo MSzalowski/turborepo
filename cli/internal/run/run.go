@@ -177,10 +177,11 @@ func (r *run) run(ctx gocontext.Context, targets []string) error {
 	if err != nil {
 		return fmt.Errorf("failed to read package.json: %w", err)
 	}
-	turboJSON, err := fs.ReadTurboConfig(r.base.RepoRoot, rootPackageJSON)
+	turboJSON, err := fs.LoadTurboConfig(r.base.RepoRoot, rootPackageJSON, r.opts.runOpts.singlePackage)
 	if err != nil {
 		return err
 	}
+
 	// TODO: these values come from a config file, hopefully viper can help us merge these
 	r.opts.cacheOpts.RemoteCacheOpts = turboJSON.RemoteCacheOptions
 	pkgDepGraph, err := context.New(context.WithGraph(r.base.RepoRoot, rootPackageJSON, r.opts.cacheOpts.ResolveCacheDir(r.base.RepoRoot)))

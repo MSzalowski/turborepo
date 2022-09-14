@@ -1,8 +1,0 @@
-Setup
-  $ . ${TESTDIR}/../setup.sh
-  $ . ${TESTDIR}/setup.sh
-
-Check
-  $ ${TURBO} run build --dry --single-package
-   ERROR  run failed: Could not find turbo.json. Follow directions at https://turborepo.org/docs/getting-started to create one
-  [1]
