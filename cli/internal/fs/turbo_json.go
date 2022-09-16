@@ -71,6 +71,7 @@ type TaskDefinition struct {
 	OutputMode              util.TaskOutputMode
 }
 
+// LoadTurboConfig loads, or optionally, synthesizes a TurboJSON instance
 func LoadTurboConfig(rootPath turbopath.AbsolutePath, rootPackageJSON *PackageJSON, includeSynthesizedFromRootPackageJSON bool) (*TurboJSON, error) {
 	var turboJSON *TurboJSON
 	turboFromFiles, err := ReadTurboConfig(rootPath, rootPackageJSON)
@@ -105,7 +106,6 @@ func LoadTurboConfig(rootPath turbopath.AbsolutePath, rootPackageJSON *PackageJS
 	}
 
 	for scriptName := range rootPackageJSON.Scripts {
-		// How do we encode these? do we synthesize // when finding the task?
 		if !turboJSON.Pipeline.HasTask(scriptName) {
 			taskName := util.RootTaskID(scriptName)
 			turboJSON.Pipeline[taskName] = TaskDefinition{}
@@ -149,11 +149,6 @@ func ReadTurboConfig(rootPath turbopath.AbsolutePath, rootPackageJSON *PackageJS
 	// If there's no turbo.json and no turbo key in package.json, return an error.
 	return nil, errors.Wrapf(os.ErrNotExist, "Could not find %s. Follow directions at https://turborepo.org/docs/getting-started to create one", configFile)
 }
-
-// func SynthesizeTurboConfig(rootPath turbopath.AbsolutePath, rootPackageJSON *PackageJSON) (*TurboJSON, error) {
-// 	turboJSON := &TurboJSON{}
-
-// }
 
 // readTurboJSON reads the configFile in to a struct
 func readTurboJSON(path turbopath.AbsolutePath) (*TurboJSON, error) {
